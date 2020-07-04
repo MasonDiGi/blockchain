@@ -1,12 +1,15 @@
-from .block import Block
 from .transaction import Transaction
 from hashlib import sha256
+from .block import Block
+from sys import argv
 import json
 
 class Blockchain:
     def __init__(self):
         self.chain = []
         self.pendingTransactions = []
+        self.currentNodeUrl = "http://" + argv[2] + ":" + argv[1]
+        self.networkNodes = []
         self.createNewBlock(100, "0", "0")
     
     def get(self):
