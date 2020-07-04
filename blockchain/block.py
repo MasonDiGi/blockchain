@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 class Block:
     def __init__(self, index, transactions, nonce, hash, prevHash):
@@ -9,14 +10,10 @@ class Block:
         self.hash = hash
         self.previousBlockHash = prevHash
 
-    def __repr__(self):
-        return (
-        "\n{\n" +
-        f"index: {self.index}\n" +
-        f"timestamp: {self.timestamp}\n" +
-        f"transactions: {self.transactions}\n" +
-        f"nonce: {self.nonce}\n" +
-        f"hash: {self.hash}\n" +
-        f"previous hash: {self.previousBlockHash}\n" +
-        "}"
-        )
+    def get(self):
+        transactions = []
+        for i in self.transactions:
+            transactions.append(i.get())
+        ret = {"index": self.index, "timestamp": str(self.timestamp), "transactions": transactions,
+            "nonce": self.nonce, "hash": self.hash}
+        return ret

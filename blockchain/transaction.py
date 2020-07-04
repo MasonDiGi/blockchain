@@ -12,3 +12,6 @@ class Transaction:
             f"\trecipient: {self.recipient}\n" +
             "\t}"
         )
+    def get(self):
+        ret = {"amount": self.amount, "sender": self.sender, "recipient": self.recipient}
+        return ret

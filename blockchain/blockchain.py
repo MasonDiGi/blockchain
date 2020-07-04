@@ -1,6 +1,7 @@
 from .block import Block
 from .transaction import Transaction
 from hashlib import sha256
+import json
 
 class Blockchain:
     def __init__(self):
@@ -8,6 +9,16 @@ class Blockchain:
         self.pendingTransactions = []
         self.createNewBlock(100, "0", "0")
     
+    def get(self):
+        chain = []
+        pendingTransactions = []
+        for i in self.chain:
+            chain.append(i.get())
+        for i in self.pendingTransactions:
+            pendingTransactions.append(i.get())
+        ret = {"chain": chain, "pendingTransactions": pendingTransactions}
+        return ret
+
     def createNewBlock(self, nonce, previousBlockHash, hash):
         """Generates a new block for the chain that contains the new transactions
 
@@ -16,7 +27,7 @@ class Blockchain:
             previousBlockHash (string): Hash of previous block
             hash (string): Data for new block
         """
-        newBlock = Block(len(self.chain) + 1, self.pendingTransactions, nonce, hash, previousBlockHash)
+        newBlock = Block(len(self.chain), self.pendingTransactions, nonce, hash, previousBlockHash)
         self.pendingTransactions = []
         self.chain.append(newBlock)
         return newBlock
