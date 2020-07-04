@@ -55,26 +55,37 @@ def regAndBroadcast():
     except:
         myChain.networkNodes.append(newNodeUrl)
 
-    nodesData = []
     for networkNodeUrl in myChain.networkNodes:
         uri = networkNodeUrl + "/register-node"
         r = requests.post(uri, json={'newNodeUrl': newNodeUrl})
-        nodesData.append(r.json())
     uri = newNodeUrl + '/register-nodes-bulk'
     requests.post(uri, json={ "allNetworkNodes": [ *myChain.networkNodes, myChain.currentNodeUrl ] })
-    return jsonify({ "note": "New node added successsfully!" })
+    return "New node added successsfully!"
 
 
 # Register a node with the network
 @app.route('/register-node', methods=["POST"])
 def regNode():
-    pass
+    newNodeUrl = request.json["newNodeUrl"]
+    try:
+        myChain.networkNodes.index(newNodeUrl)
+    except:
+        if newNodeUrl != myChain.currentNodeUrl:
+            myChain.networkNodes.append(newNodeUrl)
+    return "New node added successfully!"
 
 
 # Register multiple nodes at once
 @app.route('/register-nodes-bulk', methods=["POST"])
 def regNodesBulk():
-    pass
+    req = request.json
+    for node in req["allNetworkNodes"]:
+        try:
+            myChain.networkNodes.index(newNodeUrl)
+        except:
+            if node != myChain.currentNodeUrl:
+                myChain.networkNodes.append(node)
+    return "Nodes added in bulk!"
 
 
-app.run(port=argv[1], host=argv[2])
+app.run(port=argv[1], host=argv[2], debug=True)

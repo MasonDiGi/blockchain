@@ -19,7 +19,12 @@ class Blockchain:
             chain.append(i.get())
         for i in self.pendingTransactions:
             pendingTransactions.append(i.get())
-        ret = {"chain": chain, "pendingTransactions": pendingTransactions}
+        ret = {
+            "URL": self.currentNodeUrl,
+            "attached nodes": self.networkNodes,
+            "chain": chain,
+            "pendingTransactions": pendingTransactions
+            }
         return ret
 
     def createNewBlock(self, nonce, previousBlockHash, hash):
